@@ -317,6 +317,17 @@ def show_config(args):
     client.disconnect(send_close=True)
     pprint(config)
 
+    
+def change_channel(args):
+    client = get_client(args.harmony_ip, args.harmony_port)
+    status = client.change_channel(channel)
+    client.disconnect(send_close=True)
+    if status:
+        return True
+    else:
+        logger.error('Unable to change the channel')
+        return False    
+    
 
 def show_current_activity(args):
     """Returns Harmony hub's current activity.
@@ -454,6 +465,9 @@ def main():
     show_config_parser = subparsers.add_parser('show_config', help='Print the Harmony device configuration.')
     show_config_parser.set_defaults(func=show_config)
 
+    change_channel_parser = subparsers.add_parser('change_channel', help='Change channel.')
+    change_channel_parser.set_defaults(func=change_channel)
+    
     show_activity_parser = subparsers.add_parser('show_current_activity', help='Print the current activity config.')
     show_activity_parser.set_defaults(func=show_current_activity)
 
